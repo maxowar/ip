@@ -1,11 +1,11 @@
 <?php
 
-namespace Maxowar\IP;
+namespace Network\IP;
 
 /**
  * Represent an IPv4 address
  *
- * @package Maxowar\IP
+ * @package Network\IP
  */
 class Address
 {
@@ -13,7 +13,7 @@ class Address
 
     public function __construct($address)
     {
-        $this->address = $address;
+        $this->address = (string) $address;
     }
 
     /**
@@ -21,7 +21,7 @@ class Address
      */
     public function valid()
     {
-        return filter_var($this->address, FILTER_FLAG_IPV4);
+        return filter_var($this->address, FILTER_VALIDATE_IP) !== false;
     }
 
     /**
@@ -45,7 +45,15 @@ class Address
         if(PHP_INT_SIZE * 8 == 64) {
             return (float) sprintf('%u', ip2long($this->address));
         }
-
         return ip2long($this->address);
+    }
+
+    /**
+     * @param $dec
+     * @return Address
+     */
+    public static function fromDecimal($dec)
+    {
+        return new static(long2ip($dec));
     }
 }

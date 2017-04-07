@@ -1,6 +1,6 @@
 <?php
 
-namespace Maxowar\IP;
+namespace Network\IP;
 
 class Range
 {
@@ -41,7 +41,7 @@ class Range
      *
      * @param string $range
      */
-    public function __construct($range)
+    public function __construct(string $range)
     {
         $this->range = $range;
 
@@ -56,10 +56,10 @@ class Range
         } elseif ($slashPosition = strpos($range, '/') !== false) {
             // class or netmask
 
-            list($ip, $netmask) = explode($range, '/', 2);
+            list($ip, $netmask) = explode('/', $range, 2);
 
             // fix ip
-            $ip_bytes = explode($ip, '.');
+            $ip_bytes = explode('.', $ip);
             while(count($ip_bytes) < 4) {
                 $ip_bytes[] = '0';
             }
@@ -68,14 +68,16 @@ class Range
 
             // fix netmask
             if(strpos($netmask, '.')) {
-                $wildcard = pow(2, (32 - $netmask)) - 1;
-                $netmask = ip2long($netmask);
+                $netmask = new Address($netmask);
+                $netmask = $netmask->decimal();
+
+                $wildcard = ~ $netmask;
             } else {
                 $wildcard = pow(2, 32 - $netmask) - 1;
                 $netmask = bindec(str_pad('', $netmask, '1') . str_pad('', 32 - $netmask, '0'));
             }
 
-            $this->broadcast = $this->network->decimal() + $wildcard;
+            $this->broadcast = Address::fromDecimal($this->network->decimal() + $wildcard);
             $this->netmask   = $netmask;
             $this->wildcard  = $wildcard;
 

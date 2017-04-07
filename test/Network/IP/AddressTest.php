@@ -1,6 +1,6 @@
 <?php
 
-namespace Maxowar\IP;
+namespace Network\IP;
 
 use PHPUnit\Framework\TestCase;
 
@@ -53,5 +53,8 @@ class AddressTest extends TestCase
     {
         $address = new Address('0.0.0.255');
         $this->assertEquals(255, $address->decimal());
+
+        $address = new Address('0.0.1.255');
+        $this->assertEquals(511, $address->decimal());
     }
 }

@@ -1,15 +1,15 @@
 {
-  "name" : "maxowar/ip",
+  "name" : "network/ip",
   "description" : "Useful tool for manage IP",
   "keywords" : ["ip"],
   "autoload" : {
     "psr-4": {
-      "Maxowar\\": "src/Maxowar"
+      "Network\\": "src/Network"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Maxowar\\": "tests/Maxowar"
+      "Network\\": "tests/Network"
     }
   },
   "require-dev": {
