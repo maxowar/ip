@@ -9,11 +9,19 @@ namespace Network\IP;
  */
 class Address
 {
+    /**
+     * @var string
+     */
     private $address;
 
     public function __construct($address)
     {
         $this->address = (string) $address;
+    }
+
+    public function __toString()
+    {
+        return $this->address;
     }
 
     /**
